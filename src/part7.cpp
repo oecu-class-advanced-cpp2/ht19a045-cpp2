@@ -46,17 +46,14 @@ int nth_prime(unsigned int a, unsigned int d, unsigned int n)
 
 bool is_prime(const unsigned n) {
 	switch (n) {
-	case 0: // fall-through
+	case 0:
 	case 1: return false;
-	case 2: // fall-through
+	case 2:
 	case 3: return true;
-	} // n > 3 ‚ª•ÛØ‚³‚ê‚½
+	}
 
 	if (n % 2 == 0 || n % 3 == 0) return false;
-	// n ‚Í 2 ‚Æ 3 ‚Ì‚¢‚¸‚ê‚Ì”{”‚Å‚à‚È‚¢‚±‚Æ‚ª•ÛØ‚³‚ê‚½
-	// ‚±‚ê‚æ‚è n ‚Í (6‚Ì”{”)-1 ‚© (6‚Ì”{”)+1 ‚Å‚ ‚é
 
-	// 6‚Ì”{”‘OŒã‚Ì”‚ðŽg‚Á‚ÄŽŽ‚µŠ„‚è‚ð‚·‚é
 	for (unsigned i = 5; i * i <= n; i += 6) {
 		if (n % i == 0) return false; // (6‚Ì”{”)-1
 		if (n % (i + 2) == 0) return false; // (6‚Ì”{”)+1
