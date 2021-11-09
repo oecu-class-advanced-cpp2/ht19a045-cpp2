@@ -1,4 +1,6 @@
 #include <iostream>
+#include <vector>
+
 #define CPP2_PRIME_UPPER_LIMIT 1000000 //探索する値の上限値。
 /* --------------------------------------------------------------- */
 /*
@@ -12,8 +14,53 @@
 */
 /* -------------------------------------------------------------- */
 int nth_prime(unsigned int a, unsigned int d, unsigned int n);
+bool is_prime(const unsigned n);
 int main() {
- std::cout << nth_prime(367, 186, 151) << std::endl;
- // 以下、同様に、入出力例通りになるか確認せよ。
-return 0;
+	int a, b, c;
+	for (;;) {
+		std::cin >> a >> b >> c;
+		if ((a == 0 && b == 0) && c == 0)
+			break;
+		std::cout << nth_prime(a, b, c) << std::endl;
+	}
+	// 以下、同様に、入出力例通りになるか確認せよ。
+	return 0;
+}
+
+int nth_prime(unsigned int a, unsigned int d, unsigned int n)
+{
+	std::vector<int> myArray;
+	int counter = 0;
+	for (int i = 0; i < CPP2_PRIME_UPPER_LIMIT; i++)
+	{
+		int num = a + (i * d);
+		if (is_prime(num)) {
+			myArray.push_back(num);
+			counter++;
+			if (counter == n)
+				break;
+		}
+	}
+	return myArray[n - 1];
+}
+
+bool is_prime(const unsigned n) {
+	switch (n) {
+	case 0: // fall-through
+	case 1: return false;
+	case 2: // fall-through
+	case 3: return true;
+	} // n > 3 が保証された
+
+	if (n % 2 == 0 || n % 3 == 0) return false;
+	// n は 2 と 3 のいずれの倍数でもないことが保証された
+	// これより n は (6の倍数)-1 か (6の倍数)+1 である
+
+	// 6の倍数前後の数を使って試し割りをする
+	for (unsigned i = 5; i * i <= n; i += 6) {
+		if (n % i == 0) return false; // (6の倍数)-1
+		if (n % (i + 2) == 0) return false; // (6の倍数)+1
+	}
+
+	return true;
 }
