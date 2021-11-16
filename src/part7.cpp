@@ -25,18 +25,18 @@ int nth_prime(unsigned int a, unsigned int d, unsigned int n);
 /* -------------------------------------------------------------- */
 bool is_prime(const unsigned n);
 int main() {
-	std::cout << "入力は空白(スペース)区切りでa d nの順に入力する" << std::endl;
-	std::cout << "0 0 0の入力でプログラム終了" << std::endl;
-	int a, b, c;
-	// 入力は空白(スペース)区切りでa d nの順に入力する
-	// 0 0 0の入力でプログラム終了
-	for (;;) {
-		std::cin >> a >> b >> c;
-		if ((a == 0 && b == 0) && c == 0)
-			break;
-		std::cout << nth_prime(a, b, c) << std::endl;
-	}
-	// 以下、同様に、入出力例通りになるか確認せよ。
+	std::cout << nth_prime(367, 186, 151) << " " << 92809 << std::endl;
+	std::cout << nth_prime(179, 10, 203) << " " << 6709 << std::endl;
+	std::cout << nth_prime(271, 37, 39) << " " << 12037 << std::endl;
+	std::cout << nth_prime(103, 230, 1) << " " << 103 << std::endl;
+	std::cout << nth_prime(27, 104, 185) << " " << 93523 << std::endl;
+	std::cout << nth_prime(253, 50, 85) << " " << 14503 << std::endl;
+	std::cout << nth_prime(1, 1, 1) << " " << 2 << std::endl;
+	std::cout << nth_prime(9075, 337, 210) << " " << 899429 << std::endl;
+	std::cout << nth_prime(307, 24, 79) << " " << 5107 << std::endl;
+	std::cout << nth_prime(331, 221, 177) << " " << 412717 << std::endl;
+	std::cout << nth_prime(259, 170, 40) << " " << 22699 << std::endl;
+	std::cout << nth_prime(269, 58, 102) << " " << 25673 << std::endl;
 	return 0;
 }
 
