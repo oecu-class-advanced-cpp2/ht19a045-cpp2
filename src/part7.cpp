@@ -16,7 +16,11 @@
 int nth_prime(unsigned int a, unsigned int d, unsigned int n);
 bool is_prime(const unsigned n);
 int main() {
+	std::cout << "入力は空白(スペース)区切りでa d nの順に入力する" << std::endl;
+	std::cout << "0 0 0の入力でプログラム終了" << std::endl;
 	int a, b, c;
+	// 入力は空白(スペース)区切りでa d nの順に入力する
+	// 0 0 0の入力でプログラム終了
 	for (;;) {
 		std::cin >> a >> b >> c;
 		if ((a == 0 && b == 0) && c == 0)
