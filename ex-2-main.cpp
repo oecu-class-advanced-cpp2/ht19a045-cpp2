@@ -12,10 +12,88 @@ namespace cpp2 {
 	private:
 		int num;
 	public:
-		mcxi(std::string strNum = "");
+		mcxi(std::string strNum);
+
+		mcxi(int a, int b) { num = a + b; };
+
+		int getNum() { return num; };
 
 		std::string to_string();
 	};
+
+	mcxi operator + (mcxi mcxi1, mcxi mcxi2)
+	{
+		mcxi dt(mcxi1.getNum(), mcxi2.getNum());
+		return dt;
+	}
+
+	mcxi::mcxi(std::string strNum)
+	{
+		switch (strNum[0])
+		{
+		case 'm':
+			num = 1000;
+			break;
+		case 'c':
+			num = 100;
+			break;
+		case 'x':
+			num = 10;
+			break;
+		case 'i':
+			num = 1;
+			break;
+		case '2':
+		case '3':
+		case '4':
+		case '5':
+		case '6':
+		case '7':
+		case '8':
+		case '9':
+			num = strNum[0] - '0';
+			break;
+		default:
+			break;
+		}
+		for (const auto & str : strNum)
+		{
+			if (str == strNum[0]) continue;
+			switch (str)
+			{
+			case 'm':
+				num *= 1000;
+				break;
+			case 'c':
+				num *= 100;
+				break;
+			case 'x':
+				num *= 10;
+				break;
+			case 'i':
+				if (num % 10 == 0) num += 1;
+				else num *= 1;
+				break;
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+				num += str - '0';
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	std::string mcxi::to_string()
+	{
+		return std::to_string(num);
+	}
 } // namespace cpp2
 int main() {
 	cpp2::mcxi a0("xi");
@@ -58,9 +136,6 @@ int main() {
 	cpp2::mcxi b9("c2x8i");
 	cpp2::mcxi result9 = a9 + b9;
 	std::cout << "9m9c9x9i" << " " << result9.to_string() << std::endl;
-}
 
-cpp2::mcxi::mcxi(std::string strNum = "")
-{
-
+	return 0;
 }
