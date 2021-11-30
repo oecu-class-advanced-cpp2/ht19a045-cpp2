@@ -10,7 +10,7 @@ namespace cpp2 {
 	/* --------------------------------------------------------------------- */
 	class mcxi {
 	private:
-		int num;
+		int num = 0;
 	public:
 		mcxi(std::string strNum);
 
@@ -29,50 +29,38 @@ namespace cpp2 {
 
 	mcxi::mcxi(std::string strNum)
 	{
-		switch (strNum[0])
+		int memoNum = 0;
+		for (size_t index = 0; index < strNum.length();index++)
 		{
-		case 'm':
-			num = 1000;
-			break;
-		case 'c':
-			num = 100;
-			break;
-		case 'x':
-			num = 10;
-			break;
-		case 'i':
-			num = 1;
-			break;
-		case '2':
-		case '3':
-		case '4':
-		case '5':
-		case '6':
-		case '7':
-		case '8':
-		case '9':
-			num = strNum[0] - '0';
-			break;
-		default:
-			break;
-		}
-		for (const auto & str : strNum)
-		{
-			if (str == strNum[0]) continue;
-			switch (str)
+			switch (strNum[index])
 			{
 			case 'm':
-				num *= 1000;
+				if (0 == memoNum) num += 1000;
+				else
+				{
+					num += memoNum * 1000;
+					memoNum = 0;
+				}
 				break;
 			case 'c':
-				num *= 100;
+				if (0 == memoNum) num += 100;
+				else
+				{
+					num += memoNum * 100;
+					memoNum = 0;
+				}
 				break;
 			case 'x':
-				num *= 10;
+				if (0 == memoNum) num += 10;
+				else
+				{
+					num += memoNum * 10;
+					memoNum = 0;
+				}
 				break;
 			case 'i':
-				if (num % 10 == 0) num += 1;
-				else num *= 1;
+				if (0 == memoNum) num += 1;
+				else num += memoNum;
 				break;
 			case '2':
 			case '3':
@@ -82,9 +70,7 @@ namespace cpp2 {
 			case '7':
 			case '8':
 			case '9':
-				num += str - '0';
-				break;
-			default:
+				memoNum = strNum[index] - '0';
 				break;
 			}
 		}
@@ -92,7 +78,51 @@ namespace cpp2 {
 
 	std::string mcxi::to_string()
 	{
-		return std::to_string(num);
+		std::string str;
+		int memoNum = num;
+		int m = memoNum / 1000;
+		if (m > 0)
+		{
+			if (m == 1) str += 'm';
+			else
+			{
+				str += std::to_string(m);
+				str += 'm';
+			}
+			memoNum = memoNum - (m * 1000);
+		}
+		int c = memoNum / 100;
+		if (c > 0)
+		{
+			if (c == 1) str += 'c';
+			else
+			{
+				str += std::to_string(c);
+				str += 'c';
+			}
+			memoNum = memoNum - (c * 100);
+		}
+		int x = memoNum / 10;
+		if (x > 0)
+		{
+			if (x == 1) str += 'x';
+			else
+			{
+				str += std::to_string(x);
+				str += 'x';
+			}
+			memoNum = memoNum - (x * 10);
+		}
+		if (memoNum > 0)
+		{
+			if (memoNum == 1) str += 'i';
+			else
+			{
+				str += std::to_string(memoNum);
+				str += 'i';
+			}
+		}
+		return str;
 	}
 } // namespace cpp2
 int main() {
@@ -107,7 +137,7 @@ int main() {
 	cpp2::mcxi a2("c2x2i");
 	cpp2::mcxi b2("4c8x8i");
 	cpp2::mcxi result2 = a2 + b2;
-	std::cout << "6cx" << " " << result2.to_string() << std::endl;
+	std::cout << "6cx" << " " << result2.to_string() << " " << result2.getNum() << std::endl;
 	cpp2::mcxi a3("m2ci");
 	cpp2::mcxi b3("4m7c9x8i");
 	cpp2::mcxi result3 = a3 + b3;
