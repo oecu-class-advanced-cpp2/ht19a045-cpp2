@@ -30,37 +30,54 @@ namespace cpp2 {
 	mcxi::mcxi(std::string strNum)
 	{
 		int memoNum = 0;
-		for (size_t index = 0; index < strNum.length();index++)
+		int check[3] = { 0,0,0 };
+		for (size_t index = 0; index < strNum.length(); index++)
 		{
 			switch (strNum[index])
 			{
 			case 'm':
+				if (check[0] < 1)check[0] = 1;
+				else check[0] = 999;
+
 				if (0 == memoNum) num += 1000;
 				else
 				{
 					num += memoNum * 1000;
 					memoNum = 0;
 				}
+				check[2] = 0;
 				break;
 			case 'c':
+				if (check[0] < 2) check[0] = 2;
+				else check[0] = 999;
+
 				if (0 == memoNum) num += 100;
 				else
 				{
 					num += memoNum * 100;
 					memoNum = 0;
 				}
+				check[2] = 0;
 				break;
 			case 'x':
+				if (check[0] < 3) check[0] = 3;
+				else check[0] = 999;
+
 				if (0 == memoNum) num += 10;
 				else
 				{
 					num += memoNum * 10;
 					memoNum = 0;
 				}
+				check[2] = 0;
 				break;
 			case 'i':
+				if (check[0] < 4) check[0] = 4;
+				else check[0] = 999;
+
 				if (0 == memoNum) num += 1;
 				else num += memoNum;
+				check[2] = 0;
 				break;
 			case '2':
 			case '3':
@@ -71,8 +88,16 @@ namespace cpp2 {
 			case '8':
 			case '9':
 				memoNum = strNum[index] - '0';
+				check[2]++;
+				break;
+			default:
+				check[1] = 999;
 				break;
 			}
+			if (check[2] > 1) break;
+		}
+		if ((999 == check[0] || 999 == check[1]) || check[2] > 1) {
+			std::cout << "“ü—Í’l‚ª³‚µ‚­‚ ‚è‚Ü‚¹‚ñ." << std::endl;
 		}
 	}
 
@@ -124,6 +149,20 @@ namespace cpp2 {
 		}
 		return str;
 	}
+
+	bool result_test(const std::string result1, const std::string result2)
+	{
+		if (result1 == result2) return true;
+		return false;
+	}
+
+	void mcxi_test(const std::string a, const std::string b, const std::string result)
+	{
+		cpp2::mcxi testA(a);
+		cpp2::mcxi testB(b);
+		cpp2::mcxi testResult = testA + testB;
+		std::cout << std::boolalpha << result_test(result, testResult.to_string()) << std::endl;
+	}
 } // namespace cpp2
 int main() {
 	cpp2::mcxi a0("xi");
@@ -166,6 +205,21 @@ int main() {
 	cpp2::mcxi b9("c2x8i");
 	cpp2::mcxi result9 = a9 + b9;
 	std::cout << "9m9c9x9i" << " " << result9.to_string() << std::endl;
+
+	cpp2::mcxi_test("xi", "x9i", "3x");
+	cpp2::mcxi_test("i", "9i", "x");
+	cpp2::mcxi_test("c2x2i", "4c8x8i", "6cx");
+	cpp2::mcxi_test("m2ci", "4m7c9x8i", "5m9c9x9i");
+	cpp2::mcxi_test("9c9x9i", "i", "m");
+	cpp2::mcxi_test("i", "9m9c9x8i", "9m9c9x9i");
+	cpp2::mcxi_test("9m8c7xi", "c2x8i", "9m9c9x9i");
+	cpp2::mcxi_test("i", "m", "mi");
+	cpp2::mcxi_test("m9i", "i", "mx");
+	cpp2::mcxi_test("9m8c7xi", "c2x8i", "9m9c9x9i");
+
+	cpp2::mcxi test1("abc");
+	cpp2::mcxi test2("4mm8i");
+	cpp2::mcxi test3("4m88i");
 
 	return 0;
 }
